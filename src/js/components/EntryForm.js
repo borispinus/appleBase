@@ -1,44 +1,53 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 
-export default class EntryForm extends React.Component {
+class EntryForm extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = this.props.entry || { name: '',	description: '', season: 'Зима'}
+	}
+
 	closeModal(){
 		this.props.history.push('/apples');
 	}
+
 	handleSubmit(e){
 		e.preventDefault();
-		console.log(document.getElementById("description"))
-		this.props.addEntry({name : document.getElementById("name").value,
-			description : document.getElementById("description").value,
-			season : document.getElementById("season").value})
+		this.props.handle(this.state)
 		this.closeModal();
 	}
+
 	render() {
 		return (
 			<div className="modal">
 				<div className="modal-content">
-					<form onSubmit={this.handleSubmit.bind(this)}>
+					<form>
 						<fieldset>
 						<label htmlFor="name">Назавание</label>
-						<input type="text" id="name"/>
+						<input type="text" id="name" value={this.state.name}
+						onChange = { (e) => this.setState({ name : e.target.value }) } />
 						</fieldset>
 						<fieldset>
 						<label htmlFor="description">Описание</label>
-						<textarea id="description"/>
+						<textarea id="description" value={this.state.description}
+							onChange = { (e) => this.setState({ description : e.target.value}) } />
 						</fieldset>
 						<fieldset>
 						<label htmlFor="season">Сезон</label>
-						<select id="season">
+						<select id="season" value={this.state.season}
+						onChange = { (e) => this.setState({ season : e.target.value }) }>
 							<option>Зима</option>
 							<option>Весна</option>
 							<option>Лето</option>
 							<option>Осень</option>
 						</select>
 						</fieldset>
+						<button onClick={this.handleSubmit.bind(this)}>Сохранить</button>
 						<button onClick={this.closeModal.bind(this)}>Закрыть</button>
-						<input type="submit" value="Сохранить"/>
 					</form>
 				</div>
 			</div>
 		)
 	}
 }
+export default withRouter(EntryForm);

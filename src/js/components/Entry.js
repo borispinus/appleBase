@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
+
+import UpdateModal from './UpdateModal';
 
 export default class Entry extends React.Component {
 	delete(){
-		this.props.delete(this.props.entry.id)
+		this.props.deleteEntry(this.props.entry.id)
 	}
   	render() {
 	  	return (
@@ -12,7 +14,14 @@ export default class Entry extends React.Component {
 	  			<p>{ this.props.entry.description }</p>
 	  			<p>{ this.props.entry.season }</p>
 	  			<Link to={`/apples/edit/${this.props.entry.id}`}>Обновить </Link>
-	  			<button onClick = { this.delete.bind(this) }></button>
+	  			<button onClick = { this.delete.bind(this) }>Удалить</button>
+		  		<Route path='/apples/:id' render={ ()  => {
+					return <UpdateModal
+						entry={ this.props.entry }
+						updateEntry={ this.props.updateEntry.bind(this) }
+						/>
+					} 
+				}/>
 	  		</div>
 	  	)
 	}

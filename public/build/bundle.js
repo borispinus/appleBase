@@ -60,7 +60,7 @@
 
 	var _Layout2 = _interopRequireDefault(_Layout);
 
-	__webpack_require__(230);
+	__webpack_require__(229);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25510,11 +25510,11 @@
 
 	var _SortList2 = _interopRequireDefault(_SortList);
 
-	var _NotFound = __webpack_require__(228);
+	var _NotFound = __webpack_require__(227);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Login = __webpack_require__(229);
+	var _Login = __webpack_require__(228);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
@@ -25629,6 +25629,8 @@
 		value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(183);
@@ -25637,19 +25639,25 @@
 
 	var _reactRouterDom = __webpack_require__(184);
 
-	var _EntryForm = __webpack_require__(227);
-
-	var _EntryForm2 = _interopRequireDefault(_EntryForm);
-
-	var _Entry = __webpack_require__(234);
+	var _Entry = __webpack_require__(233);
 
 	var _Entry2 = _interopRequireDefault(_Entry);
 
-	var _NotFound = __webpack_require__(228);
+	var _NotFound = __webpack_require__(227);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
+	var _CreateModal = __webpack_require__(236);
+
+	var _CreateModal2 = _interopRequireDefault(_CreateModal);
+
+	var _id = __webpack_require__(237);
+
+	var _id2 = _interopRequireDefault(_id);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -25665,20 +25673,33 @@
 
 			var _this = _possibleConstructorReturn(this, (SortList.__proto__ || Object.getPrototypeOf(SortList)).call(this));
 
-			_this.state = { sorts: [] };
+			_this.state = { sorts: {} };
+			_this.id = (0, _id2.default)();
 			return _this;
 		}
 
 		_createClass(SortList, [{
 			key: 'addEntry',
-			value: function addEntry(name, description, season) {
+			value: function addEntry(entry) {
+				var id = this.id();
 				this.setState({
-					sorts: this.state.sorts.concat({
-						name: name,
-						description: description,
-						season: season,
-						date: new Date()
-					})
+					sorts: _extends({}, this.state.sorts, _defineProperty({}, id, _extends({}, entry, { id: id, date: new Date() })))
+				});
+			}
+		}, {
+			key: 'updateEntry',
+			value: function updateEntry(entry) {
+				this.setState({
+					sorts: _extends({}, this.state.sorts, _defineProperty({}, entry.id, _extends({}, entry)))
+				});
+			}
+		}, {
+			key: 'deleteEntry',
+			value: function deleteEntry(id) {
+				var tmp = _extends({}, this.state.sorts);
+				delete tmp[id];
+				this.setState({
+					sorts: _extends({}, tmp)
 				});
 			}
 		}, {
@@ -25686,8 +25707,13 @@
 			value: function render() {
 				var _this2 = this;
 
-				var table = this.state.sorts.map(function (sort) {
-					return _react2.default.createElement(_Entry2.default, { key: sort.id, entry: sort });
+				var table = Object.values(this.state.sorts).map(function (sort) {
+					return _react2.default.createElement(_Entry2.default, {
+						key: sort.id,
+						entry: sort,
+						updateEntry: _this2.updateEntry.bind(_this2),
+						deleteEntry: _this2.deleteEntry.bind(_this2)
+					});
 				});
 				return _react2.default.createElement(
 					'div',
@@ -25698,15 +25724,9 @@
 						'New '
 					),
 					table,
-					_react2.default.createElement(
-						_reactRouterDom.Switch,
-						null,
-						_react2.default.createElement(_reactRouterDom.Route, { path: '/apples/edit/:id', component: _EntryForm2.default }),
-						_react2.default.createElement(_reactRouterDom.Route, { path: '/apples/new', render: function render() {
-								return _react2.default.createElement(_EntryForm2.default, { addEntry: _this2.addEntry.bind(_this2) });
-							} }),
-						_react2.default.createElement(_reactRouterDom.Route, { path: '/apples/*', component: _NotFound2.default })
-					)
+					_react2.default.createElement(_reactRouterDom.Route, { path: '/apples/new', render: function render() {
+							return _react2.default.createElement(_CreateModal2.default, { addEntry: _this2.addEntry.bind(_this2) });
+						} })
 				);
 			}
 		}]);
@@ -25718,136 +25738,6 @@
 
 /***/ }),
 /* 227 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(183);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var EntryForm = function (_React$Component) {
-		_inherits(EntryForm, _React$Component);
-
-		function EntryForm() {
-			_classCallCheck(this, EntryForm);
-
-			return _possibleConstructorReturn(this, (EntryForm.__proto__ || Object.getPrototypeOf(EntryForm)).apply(this, arguments));
-		}
-
-		_createClass(EntryForm, [{
-			key: 'closeModal',
-			value: function closeModal() {
-				this.props.history.push('/apples');
-			}
-		}, {
-			key: 'handleSubmit',
-			value: function handleSubmit(e) {
-				e.preventDefault();
-				console.log(document.getElementById("description"));
-				this.props.addEntry({ name: document.getElementById("name").value,
-					description: document.getElementById("description").value,
-					season: document.getElementById("season").value });
-				this.closeModal();
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'modal' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'modal-content' },
-						_react2.default.createElement(
-							'form',
-							{ onSubmit: this.handleSubmit.bind(this) },
-							_react2.default.createElement(
-								'fieldset',
-								null,
-								_react2.default.createElement(
-									'label',
-									{ htmlFor: 'name' },
-									'\u041D\u0430\u0437\u0430\u0432\u0430\u043D\u0438\u0435'
-								),
-								_react2.default.createElement('input', { type: 'text', id: 'name' })
-							),
-							_react2.default.createElement(
-								'fieldset',
-								null,
-								_react2.default.createElement(
-									'label',
-									{ htmlFor: 'description' },
-									'\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435'
-								),
-								_react2.default.createElement('textarea', { id: 'description' })
-							),
-							_react2.default.createElement(
-								'fieldset',
-								null,
-								_react2.default.createElement(
-									'label',
-									{ htmlFor: 'season' },
-									'\u0421\u0435\u0437\u043E\u043D'
-								),
-								_react2.default.createElement(
-									'select',
-									{ id: 'season' },
-									_react2.default.createElement(
-										'option',
-										null,
-										'\u0417\u0438\u043C\u0430'
-									),
-									_react2.default.createElement(
-										'option',
-										null,
-										'\u0412\u0435\u0441\u043D\u0430'
-									),
-									_react2.default.createElement(
-										'option',
-										null,
-										'\u041B\u0435\u0442\u043E'
-									),
-									_react2.default.createElement(
-										'option',
-										null,
-										'\u041E\u0441\u0435\u043D\u044C'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'button',
-								{ onClick: this.closeModal.bind(this) },
-								'\u0417\u0430\u043A\u0440\u044B\u0442\u044C'
-							),
-							_react2.default.createElement('input', { type: 'submit', value: '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C' })
-						)
-					)
-				);
-			}
-		}]);
-
-		return EntryForm;
-	}(_react2.default.Component);
-
-	exports.default = EntryForm;
-
-/***/ }),
-/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25883,7 +25773,7 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'p',
+	        'h1',
 	        null,
 	        'Not Found'
 	      );
@@ -25896,7 +25786,7 @@
 	exports.default = Login;
 
 /***/ }),
-/* 229 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25945,16 +25835,160 @@
 	exports.default = Login;
 
 /***/ }),
-/* 230 */
+/* 229 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
+/* 230 */,
 /* 231 */,
 /* 232 */,
-/* 233 */,
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(183);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouterDom = __webpack_require__(184);
+
+	var _UpdateModal = __webpack_require__(234);
+
+	var _UpdateModal2 = _interopRequireDefault(_UpdateModal);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Entry = function (_React$Component) {
+		_inherits(Entry, _React$Component);
+
+		function Entry() {
+			_classCallCheck(this, Entry);
+
+			return _possibleConstructorReturn(this, (Entry.__proto__ || Object.getPrototypeOf(Entry)).apply(this, arguments));
+		}
+
+		_createClass(Entry, [{
+			key: 'delete',
+			value: function _delete() {
+				this.props.deleteEntry(this.props.entry.id);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h2',
+						null,
+						this.props.entry.name
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						this.props.entry.description
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						this.props.entry.season
+					),
+					_react2.default.createElement(
+						_reactRouterDom.Link,
+						{ to: '/apples/edit/' + this.props.entry.id },
+						'\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C '
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: this.delete.bind(this) },
+						'\u0423\u0434\u0430\u043B\u0438\u0442\u044C'
+					),
+					_react2.default.createElement(_reactRouterDom.Route, { path: '/apples/:id', render: function render() {
+							return _react2.default.createElement(_UpdateModal2.default, {
+								entry: _this2.props.entry,
+								updateEntry: _this2.props.updateEntry.bind(_this2)
+							});
+						} })
+				);
+			}
+		}]);
+
+		return Entry;
+	}(_react2.default.Component);
+
+	exports.default = Entry;
+
+/***/ }),
 /* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(183);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _EntryForm = __webpack_require__(235);
+
+	var _EntryForm2 = _interopRequireDefault(_EntryForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var UpdateModal = function (_React$Component) {
+	  _inherits(UpdateModal, _React$Component);
+
+	  function UpdateModal() {
+	    _classCallCheck(this, UpdateModal);
+
+	    return _possibleConstructorReturn(this, (UpdateModal.__proto__ || Object.getPrototypeOf(UpdateModal)).apply(this, arguments));
+	  }
+
+	  _createClass(UpdateModal, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_EntryForm2.default, {
+	        entry: this.props.entry,
+	        handle: this.props.updateEntry.bind(this)
+	      });
+	    }
+	  }]);
+
+	  return UpdateModal;
+	}(_react2.default.Component);
+
+	exports.default = UpdateModal;
+
+/***/ }),
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25979,55 +26013,192 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Entry = function (_React$Component) {
-		_inherits(Entry, _React$Component);
+	var EntryForm = function (_React$Component) {
+		_inherits(EntryForm, _React$Component);
 
-		function Entry() {
-			_classCallCheck(this, Entry);
+		function EntryForm(props) {
+			_classCallCheck(this, EntryForm);
 
-			return _possibleConstructorReturn(this, (Entry.__proto__ || Object.getPrototypeOf(Entry)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (EntryForm.__proto__ || Object.getPrototypeOf(EntryForm)).call(this, props));
+
+			_this.state = _this.props.entry || { name: '', description: '', season: 'Зима' };
+			return _this;
 		}
 
-		_createClass(Entry, [{
-			key: 'delete',
-			value: function _delete() {
-				this.props.delete(this.props.entry.id);
+		_createClass(EntryForm, [{
+			key: 'closeModal',
+			value: function closeModal() {
+				this.props.history.push('/apples');
+			}
+		}, {
+			key: 'handleSubmit',
+			value: function handleSubmit(e) {
+				e.preventDefault();
+				this.props.handle(this.state);
+				this.closeModal();
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'modal' },
 					_react2.default.createElement(
-						'h2',
-						null,
-						this.props.entry.name
-					),
-					_react2.default.createElement(
-						'p',
-						null,
-						this.props.entry.description
-					),
-					_react2.default.createElement(
-						'p',
-						null,
-						this.props.entry.season
-					),
-					_react2.default.createElement(
-						_reactRouterDom.Link,
-						{ to: '/apples/edit/' + this.props.entry.id },
-						'\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C '
-					),
-					_react2.default.createElement('button', { onClick: this.delete.bind(this) })
+						'div',
+						{ className: 'modal-content' },
+						_react2.default.createElement(
+							'form',
+							null,
+							_react2.default.createElement(
+								'fieldset',
+								null,
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: 'name' },
+									'\u041D\u0430\u0437\u0430\u0432\u0430\u043D\u0438\u0435'
+								),
+								_react2.default.createElement('input', { type: 'text', id: 'name', value: this.state.name,
+									onChange: function onChange(e) {
+										return _this2.setState({ name: e.target.value });
+									} })
+							),
+							_react2.default.createElement(
+								'fieldset',
+								null,
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: 'description' },
+									'\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435'
+								),
+								_react2.default.createElement('textarea', { id: 'description', value: this.state.description,
+									onChange: function onChange(e) {
+										return _this2.setState({ description: e.target.value });
+									} })
+							),
+							_react2.default.createElement(
+								'fieldset',
+								null,
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: 'season' },
+									'\u0421\u0435\u0437\u043E\u043D'
+								),
+								_react2.default.createElement(
+									'select',
+									{ id: 'season', value: this.state.season,
+										onChange: function onChange(e) {
+											return _this2.setState({ season: e.target.value });
+										} },
+									_react2.default.createElement(
+										'option',
+										null,
+										'\u0417\u0438\u043C\u0430'
+									),
+									_react2.default.createElement(
+										'option',
+										null,
+										'\u0412\u0435\u0441\u043D\u0430'
+									),
+									_react2.default.createElement(
+										'option',
+										null,
+										'\u041B\u0435\u0442\u043E'
+									),
+									_react2.default.createElement(
+										'option',
+										null,
+										'\u041E\u0441\u0435\u043D\u044C'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'button',
+								{ onClick: this.handleSubmit.bind(this) },
+								'\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
+							),
+							_react2.default.createElement(
+								'button',
+								{ onClick: this.closeModal.bind(this) },
+								'\u0417\u0430\u043A\u0440\u044B\u0442\u044C'
+							)
+						)
+					)
 				);
 			}
 		}]);
 
-		return Entry;
+		return EntryForm;
 	}(_react2.default.Component);
 
-	exports.default = Entry;
+	exports.default = (0, _reactRouterDom.withRouter)(EntryForm);
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(183);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _EntryForm = __webpack_require__(235);
+
+	var _EntryForm2 = _interopRequireDefault(_EntryForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CreateModal = function (_React$Component) {
+	  _inherits(CreateModal, _React$Component);
+
+	  function CreateModal() {
+	    _classCallCheck(this, CreateModal);
+
+	    return _possibleConstructorReturn(this, (CreateModal.__proto__ || Object.getPrototypeOf(CreateModal)).apply(this, arguments));
+	  }
+
+	  _createClass(CreateModal, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_EntryForm2.default, { handle: this.props.addEntry.bind(this) });
+	    }
+	  }]);
+
+	  return CreateModal;
+	}(_react2.default.Component);
+
+	exports.default = CreateModal;
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = idGenerator;
+	function idGenerator() {
+	    var i = 0;
+	    return function () {
+	        return i++;
+	    };
+	}
 
 /***/ })
 /******/ ]);
