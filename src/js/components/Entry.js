@@ -1,28 +1,24 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
-import UpdateModal from './UpdateModal';
+import formatDate from '../utils/date';
 
 export default class Entry extends React.Component {
 	delete(){
 		this.props.deleteEntry(this.props.entry.id)
 	}
+	
   	render() {
+  		const { entry } = this.props; 
 	  	return (
-	  		<div>
-	  			<h2>{ this.props.entry.name }</h2>
-	  			<p>{ this.props.entry.description }</p>
-	  			<p>{ this.props.entry.season }</p>
-	  			<Link to={`/apples/edit/${this.props.entry.id}`}>Обновить </Link>
-	  			<button onClick = { this.delete.bind(this) }>Удалить</button>
-		  		<Route path='/apples/:id' render={ ()  => {
-					return <UpdateModal
-						entry={ this.props.entry }
-						updateEntry={ this.props.updateEntry.bind(this) }
-						/>
-					} 
-				}/>
-	  		</div>
+	  		<tr>
+	  			<td>{ entry.name }</td>
+	  			<td>{ formatDate(entry.date) }</td>
+	  			<td>{ entry.description }</td>
+	  			<td>{ entry.season }</td>
+	  			<td><Link to={`/apples/edit/${entry.id}`}>Обновить </Link></td>
+	  			<td><button onClick = { this.delete.bind(this) }>Удалить</button></td>
+	  		</tr>
 	  	)
 	}
 }

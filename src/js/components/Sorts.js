@@ -4,11 +4,13 @@ import { Route, Switch, Link } from 'react-router-dom';
 import Entry from './Entry';
 import NotFound from './NotFound';
 import CreateModal from './CreateModal';
+import UpdateModal from './UpdateModal';
+import SortTable from './SortTable';
 
 
 import idGenerator from '../utils/id';
 
-export default class SortList extends React.Component {
+export default class Sorts extends React.Component {
 
 	constructor(){
 		super();
@@ -40,8 +42,27 @@ export default class SortList extends React.Component {
 		});
 	}
 
+	routerSwitch(){
+		return (
+			<Switch>
+				<Route exact path='/apples/new' render={ ()  => {					
+						return <CreateModal addEntry={ this.addEntry.bind(this) }/>
+						} 
+					}/>
+				<Route exact path='/apples/edit/:id' render={ props  => {
+					return <UpdateModal
+						entry={ this.state.sorts[props.match.params.id] }
+						updateEntry={ this.updateEntry.bind(this) }
+						/>
+					} 
+				}/>
+			</Switch>
+		)
+	}
+
 	render() {
-		const table = Object.values(this.state.sorts).map(sort => {
+		const { sorts } = this.state;
+		const table = Object.values(sorts).map(sort => {
 			return (
 				<Entry 
 					key={sort.id} 
@@ -51,14 +72,13 @@ export default class SortList extends React.Component {
 				/>
 			)
 		});
+		const message = Object.values(sorts).length ? "" : "Нет записей" 
 	  	return (
 	  		<div>
-	  			<Link to={'/apples/new'}>New </Link>
-	  			{table}
-			  	<Route path='/apples/new' render={ ()  => {					
-					return <CreateModal addEntry={ this.addEntry.bind(this) }/>
-					} 
-				}/>
+	  			<Link to={'/apples/new'}>New</Link>
+	  			<SortTable table = { table } />
+				{ this.routerSwitch() }
+				{ message }
 			</div>
 		)
 	}
