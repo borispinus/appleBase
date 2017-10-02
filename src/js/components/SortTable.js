@@ -3,12 +3,12 @@ import React from 'react';
 export default class SortTable extends React.Component {
 
 	render() {
-		let message = null
+		let message = null;
 		if (this.props. message){
 			message = <tr>
-					<td className = "message" colSpan="6"> 
+					<td className = "message" colSpan="6">
 						{ this.props.message }
-					 </td>
+					</td>
 				</tr>;
 		}
 		return (
@@ -28,6 +28,6 @@ export default class SortTable extends React.Component {
 					{ message }
 				</tbody>
 			</table>
-			)
+		);
 	}
 }

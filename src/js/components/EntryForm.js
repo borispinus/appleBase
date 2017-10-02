@@ -1,16 +1,17 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
-import Name from "./formElements/Name"
-import Description from "./formElements/Description"
-import Season from "./formElements/Season"
+import Name from './formElements/Name';
+import Description from './formElements/Description';
+import Season from './formElements/Season';
 
 class EntryForm extends React.Component {
 	constructor(props){
 		super(props);
-		const entry = this.props.entry || { name: '',	description: '', season: 'Зима'};
+		const entry = this.props.entry ||
+			{ name: '',	description: '', season: 'Зима'};
 		const isValid = this.props.entry ? true : false;
-		this.state = { entry, isValid }
+		this.state = { entry, isValid };
 	}
 
 	closeModal(){
@@ -24,13 +25,13 @@ class EntryForm extends React.Component {
 	}
 
 	handleChange(input, value){
-		this.setState({ 
+		this.setState({
 			entry: {...this.state.entry,
 				[input] : value
 			}
 		});
 		const entry = {...this.state.entry, [input] : value};
-		this.setState({ 
+		this.setState({
 			isValid: entry.name && entry.description
 		});
 	}
@@ -39,7 +40,6 @@ class EntryForm extends React.Component {
 
 	render() {
 		const { entry } = this.state;
-		console.log()
 		return (
 			<div className="modal">
 				<div className="modal-content">
@@ -53,18 +53,19 @@ class EntryForm extends React.Component {
 						<Season val = { entry.season }
 							name="season"
 							handleChange = {this.handleChange.bind(this)} />
-						<button type = "submit" 
+						<button type = "submit"
 							className = "save-btn"
 							onClick={ this.handleSubmit.bind(this) }
 							disabled={ !this.state.isValid }>Сохранить</button>
-						<button onClick={ this.closeModal.bind(this)  }
+						<button onClick={ this.closeModal.bind(this) }
 							className = "close-btn">
-							<i className="fa fa-times fa-2x" aria-hidden="true"></i>
+							<i className="fa fa-times fa-2x"
+								aria-hidden="true"></i>
 						</button>
 					</form>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 export default withRouter(EntryForm);

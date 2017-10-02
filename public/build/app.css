@@ -31,8 +31,7 @@
     .modal .modal-content form {
       display: flex;
       position: relative;
-      flex-direction: column;
-      flex-wrap: wrap; }
+      flex-direction: column; }
       .modal .modal-content form input[type=text], .modal .modal-content form select, .modal .modal-content form textarea {
         width: 100%;
         padding: 12px 20px;
@@ -48,6 +47,9 @@
         @media screen and (max-width: 450px) {
           .modal .modal-content form textarea {
             height: 100px; } }
+        @media screen and (max-height: 600px) {
+          .modal .modal-content form textarea {
+            height: 50px; } }
       .modal .modal-content form fieldset {
         border: 0; }
       .modal .modal-content form button.close-btn {
@@ -70,20 +72,22 @@
         margin: 4px 2px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
-        cursor: pointer; }
+        cursor: pointer;
+        margin: 0 14px 0; }
         .modal .modal-content form button.save-btn:hover {
           color: white;
           background-color: #4CAF50; }
     @media screen and (max-height: 450px) {
       .modal .modal-content {
         width: 450px; }
-        .modal .modal-content form {
+        .modal .modal-content form fieldset {
+          width: 80%;
           flex-direction: row; }
-          .modal .modal-content form input[type=text], .modal .modal-content form select, .modal .modal-content form textarea {
+          .modal .modal-content form fieldset input[type=text], .modal .modal-content form fieldset select, .modal .modal-content form fieldset textarea {
             padding: 5px;
             width: 100%; }
-          .modal .modal-content form textarea {
-            height: 50px; } }
+          .modal .modal-content form fieldset textarea {
+            height: 28px; } }
 
 .new-entry-link {
   color: black;

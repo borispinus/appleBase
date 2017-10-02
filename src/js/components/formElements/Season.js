@@ -3,12 +3,12 @@ import React from 'react';
 export default class Season extends React.Component {
 
 	handleChange(e){
-		this.props.handleChange('season', e.target.value)
-  	}
+		this.props.handleChange('season', e.target.value);
+	}
 
 	render() {
-	  	return (
-	  		<fieldset>
+		return (
+			<fieldset>
 				<label htmlFor="season">Сезон</label>
 				<select id="season" value={ this.props.val }
 					onChange = { this.handleChange.bind(this) }>
@@ -18,6 +18,6 @@ export default class Season extends React.Component {
 					<option>Осень</option>
 				</select>
 			</fieldset>
-	  	)
-  	}
-};
+		);
+	}
+}
