@@ -133,5 +133,7 @@ body {
     padding: 10px;
     margin: auto;
     max-width: 500px; }
+    body .app-description a {
+      text-decoration: underline; }
   body .not-found {
     margin: 20px; }
