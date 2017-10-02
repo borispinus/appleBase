@@ -1,29 +1,133 @@
+.entry button {
+  border: none;
+  padding: 0;
+  background: none;
+  outline: none;
+  cursor: pointer; }
+
 .modal {
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding: 50px 0 50px;
   left: 0;
   top: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4); }
+  @media screen and (max-width: 450px) {
+    .modal {
+      padding: 10px 0 10px; } }
+  .modal .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; }
+    @media screen and (max-width: 450px) {
+      .modal .modal-content {
+        width: 70%; } }
+    .modal .modal-content form {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      flex-wrap: wrap; }
+      .modal .modal-content form input[type=text], .modal .modal-content form select, .modal .modal-content form textarea {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box; }
+      .modal .modal-content form label:after {
+        content: ' *'; }
+      .modal .modal-content form textarea {
+        resize: none;
+        height: 200px; }
+        @media screen and (max-width: 450px) {
+          .modal .modal-content form textarea {
+            height: 100px; } }
+      .modal .modal-content form fieldset {
+        border: 0; }
+      .modal .modal-content form button.close-btn {
+        position: absolute;
+        right: 0;
+        border: none;
+        padding: 0;
+        background: none;
+        outline: none;
+        cursor: pointer; }
+      .modal .modal-content form button.save-btn {
+        background-color: white;
+        border: 2px solid #4CAF50;
+        color: black;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        cursor: pointer; }
+        .modal .modal-content form button.save-btn:hover {
+          color: white;
+          background-color: #4CAF50; }
+    @media screen and (max-height: 450px) {
+      .modal .modal-content {
+        width: 450px; }
+        .modal .modal-content form {
+          flex-direction: row; }
+          .modal .modal-content form input[type=text], .modal .modal-content form select, .modal .modal-content form textarea {
+            padding: 5px;
+            width: 100%; }
+          .modal .modal-content form textarea {
+            height: 50px; } }
 
-.modal-content {
-  background-color: #fefefe;
+.new-entry-link {
+  color: black;
+  font-size: 1.2rem;
+  margin: 20px 2.5% 20px;
+  display: inline-block; }
+
+.sort-table {
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 300px; }
-  .modal-content input[type=text], .modal-content select, .modal-content textarea {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; }
-  .modal-content textarea {
-    resize: none;
-    height: 200px; }
-  .modal-content fieldset {
-    border: 0; }
+  width: 95%;
+  border-collapse: collapse; }
+  @media screen and (max-width: 400px) {
+    .sort-table {
+      font-size: 10px; } }
+  .sort-table th, .sort-table td {
+    padding: 5px 5px;
+    text-align: left;
+    vertical-align: top; }
+  .sort-table tr th:nth-child(1), .sort-table tr td:nth-child(1) {
+    width: 20%; }
+  .sort-table tr th:nth-child(2), .sort-table tr td:nth-child(2) {
+    width: 40%; }
+  .sort-table tr th:nth-child(3), .sort-table tr td:nth-child(3) {
+    width: 8%; }
+  .sort-table tr th:nth-child(4), .sort-table tr td:nth-child(4) {
+    width: 14%; }
+  .sort-table tr th:nth-child(5), .sort-table tr td:nth-child(5) {
+    width: 4%; }
+  .sort-table tr th:nth-child(6), .sort-table tr td:nth-child(6) {
+    width: 4%; }
+  .sort-table tr td.message {
+    text-align: center; }
+  .sort-table tbody tr {
+    border-top: 1px solid #ddd; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0; }
+  body a {
+    text-decoration: none; }
+  body .app-description {
+    padding: 10px;
+    margin: auto;
+    max-width: 500px; }
+  body .not-found {
+    margin: 20px; }

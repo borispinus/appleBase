@@ -1,0 +1,37 @@
+@import 'mixins'
+
+.new-entry-link
+	color: black
+	margin: 
+	font-size: 1.2rem
+	margin: 20px 2.5% 20px
+	display: inline-block
+.sort-table
+	margin: auto
+	width: 95%
+	border-collapse: collapse
+	@media screen and (max-width: 400px)
+		font-size: 10px
+	th, td
+		padding: 5px 5px
+		text-align: left
+		vertical-align: top
+	tr
+		th, td
+			&:nth-child(1)
+				width: 20%
+			&:nth-child(2)
+				width: 40%
+			&:nth-child(3)
+				width: 8%
+			&:nth-child(4)
+				width: 14%
+			&:nth-child(5)
+				width: 4%
+			&:nth-child(6)
+				width: 4%
+		td.message
+			text-align: center
+	tbody
+		tr
+			border-top: 1px solid #ddd;

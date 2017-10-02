@@ -11,10 +11,10 @@ import SortTable from './SortTable';
 import idGenerator from '../utils/id';
 
 export default class Sorts extends React.Component {
-
 	constructor(){
 		super();
-		this.state = {sorts: {}};
+		this.message = "Нет записей";
+		this.state = {sorts: {}, message: this.message};
 		this.id = idGenerator();
 	}
 
@@ -24,8 +24,10 @@ export default class Sorts extends React.Component {
 			sorts: { 
 				...this.state.sorts,
 				[id] : { ...entry, id, date: new Date() }
-			}
+			},
+			message: ""
 		});
+
 	}
 
 	updateEntry(entry){
@@ -35,21 +37,25 @@ export default class Sorts extends React.Component {
 	}
 
 	deleteEntry(id){
-		let tmp = {...this.state.sorts}
-		delete tmp[id]
+		let tmp = {...this.state.sorts};
+		delete tmp[id];
+		const message = Object.values(tmp).length ? "" : this.message;
 		this.setState({
-			sorts: { ...tmp}
+			sorts: { ...tmp},
+			message
 		});
 	}
 
 	routerSwitch(){
 		return (
 			<Switch>
-				<Route exact path='/apples/new' render={ ()  => {					
+				<Route exact path='/apples/new' render={ ()  => {
+						document.title = "Добавление записи";					
 						return <CreateModal addEntry={ this.addEntry.bind(this) }/>
 						} 
 					}/>
 				<Route exact path='/apples/edit/:id' render={ props  => {
+					document.title = "Изменение записи";
 					return <UpdateModal
 						entry={ this.state.sorts[props.match.params.id] }
 						updateEntry={ this.updateEntry.bind(this) }
@@ -72,13 +78,15 @@ export default class Sorts extends React.Component {
 				/>
 			)
 		});
-		const message = Object.values(sorts).length ? "" : "Нет записей" 
+
+		document.title = "Список сортов";
 	  	return (
 	  		<div>
-	  			<Link to={'/apples/new'}>New</Link>
-	  			<SortTable table = { table } />
+	  			<Link className = "new-entry-link" to={'/apples/new'}>
+	  				<i className="fa fa-plus" aria-hidden="true"></i> Новая запись
+	  			</Link>
+	  			<SortTable table = { table } message = { this.state.message } />
 				{ this.routerSwitch() }
-				{ message }
 			</div>
 		)
 	}

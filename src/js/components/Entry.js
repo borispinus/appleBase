@@ -11,13 +11,20 @@ export default class Entry extends React.Component {
   	render() {
   		const { entry } = this.props; 
 	  	return (
-	  		<tr>
+	  		<tr className="entry">
 	  			<td>{ entry.name }</td>
-	  			<td>{ formatDate(entry.date) }</td>
 	  			<td>{ entry.description }</td>
 	  			<td>{ entry.season }</td>
-	  			<td><Link to={`/apples/edit/${entry.id}`}>Обновить </Link></td>
-	  			<td><button onClick = { this.delete.bind(this) }>Удалить</button></td>
+	  			<td>{ formatDate(entry.date) }</td>
+	  			<td><Link to={`/apples/edit/${entry.id}`}>
+	  					<i className="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+	  				</Link>
+	  			</td>
+	  			<td>
+	  				<button onClick = { this.delete.bind(this) }>
+	  					<i className="fa fa fa-times fa-2x" aria-hidden="true"></i>
+	  				</button>
+	  			</td>
 	  		</tr>
 	  	)
 	}
